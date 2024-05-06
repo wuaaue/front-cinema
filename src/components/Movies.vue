@@ -1,10 +1,20 @@
 <template>
-  <div id="movies">
-    <h1>Выберите фильм</h1>
-    <div v-for="movie in movies" :key="movie.id">
-      <h2>{{ movie.title }}</h2>
-      <button @click="getScreenings(movie.id)">Показать сеансы</button>
-    </div>
+    <div id="movies">
+      <h1>Выберите фильм</h1>
+      <div v-for="movie in movies" :key="movie.id">
+        <div  class="movie-item">
+          <img v-if="movie.id == 1"  src="../assets/poster1.jpg" alt="Постер фильма">
+          <img v-if="movie.id == 2"  src="../assets/poster2.jpg" alt="Постер фильма">
+          <img v-if="movie.id == 3"  src="../assets/poster3.jpg" alt="Постер фильма">
+          <img v-if="movie.id == 4"  src="../assets/poster4.jpg" alt="Постер фильма">
+          <h2> </h2>
+          <div class="movie-details">
+            <h2>{{ movie.title }}</h2>
+            <button @click="getScreenings(movie.id)">Показать сеансы</button>
+          </div>
+        </div>
+        <h2> </h2>
+      </div>
     <div v-if="screenings.length > 0">
       <h3>Сеансы</h3>
       <div v-for="screening in screenings" :key="screening.id">
@@ -41,6 +51,16 @@ export default {
     };
   },
   methods: {
+    getMoviePoster(id) {
+      const posters = {
+        1: '../assets/poster1.jpg',
+        2: '../assets/poster2.jpg',
+        3: '../assets/poster3.jpg',
+        4: '../assets/poster4.jpg',
+
+      };
+      return posters[id];
+  },
     fetchMovies() {
       axios.get('http://localhost:8080/api/movies')
           .then(response => {
@@ -83,11 +103,14 @@ export default {
   },
   created() {
     this.fetchMovies();
-  }
+  },
 };
 </script>
 
 <style>
+img {
+  max-width: 100px;
+}
 #movies {
   font-family: 'Roboto', sans-serif;
   padding: 20px;

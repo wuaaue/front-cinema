@@ -37,7 +37,9 @@ export default {
         lastName: this.lastName,
         email: this.email,
         phone: this.phone,
-        password: this.password
+        password: this.password,
+        roles: ['ROLE_USER'],
+        name: this.firstName + ' ' + this.lastName
       };
       try {
         const response = await axios.post('http://localhost:8080/api/customers/register', data);

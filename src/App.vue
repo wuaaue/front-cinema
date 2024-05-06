@@ -6,9 +6,8 @@
         <router-link to="/" class="navbar-brand">Manager</router-link>
         <div class="collapse navbar-collapse">
           <div class="navbar-nav">
-            <router-link to="/registration" class="nav-link">Registration </router-link>
-            <router-link to="/movies" class="nav-link">Movies</router-link>
             <router-link to="/login" class="nav-link">Login</router-link>
+            <router-link to="/registration" class="nav-link">Registration </router-link>
           </div>
         </div>
       </div>
