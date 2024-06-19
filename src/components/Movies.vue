@@ -1,29 +1,30 @@
 <template>
-    <div id="movies">
-      <h1>Выберите фильм</h1>
-      <div v-for="movie in movies" :key="movie.id">
-        <div  class="movie-item">
-          <img v-if="movie.id == 1"  src="../assets/poster1.jpg" alt="Постер фильма">
-          <img v-if="movie.id == 2"  src="../assets/poster2.jpg" alt="Постер фильма">
-          <img v-if="movie.id == 3"  src="../assets/poster3.jpg" alt="Постер фильма">
-          <img v-if="movie.id == 4"  src="../assets/poster4.jpg" alt="Постер фильма">
-          <h2> </h2>
-          <div class="movie-details">
-            <h2>{{ movie.title }}</h2>
-            <button @click="getScreenings(movie.id)">Показать сеансы</button>
-          </div>
-        </div>
+  <div id="movies">
+    <h1>Выберите фильм</h1>
+    <div v-for="movie in movies" :key="movie.id">
+      <div  class="movie-item">
+        <img v-if="movie.id == 1"  src="../assets/poster1.jpg" alt="Постер фильма">
+        <img v-if="movie.id == 2"  src="../assets/poster2.jpg" alt="Постер фильма">
+        <img v-if="movie.id == 3"  src="../assets/poster3.jpg" alt="Постер фильма">
+        <img v-if="movie.id == 4"  src="../assets/poster4.jpg" alt="Постер фильма">
         <h2> </h2>
+        <div class="movie-details">
+          <h2>{{ movie.title }}</h2>
+          <button @click="getScreenings(movie.id)">Показать сеансы</button>
+        </div>
       </div>
-    <div v-if="screenings.length > 0">
-      <h3>Сеансы</h3>
-      <div v-for="screening in screenings" :key="screening.id">
-        <p>{{ screening.startTime }}</p>
-        <p>Доступные места: {{ screening.availableSeats }}</p>
-        <button @click="showReservationForm(screening.id)">Забронировать</button>
+      <h2> </h2>
+    </div>
+      <div class="screenings-list" v-if="screenings.length > 0">
+        <h3>Сеансы</h3>
+        <div v-for="screening in screenings" :key="screening.id" class="screening-item">
+          <p>{{ screening.startTime }}</p>
+          <p>Доступные места: {{ screening.availableSeats }}</p>
+          <button @click="showReservationForm(screening.id)">Забронировать</button>
+        </div>
       </div>
     </div>
-    <div v-if="showForm">
+    <div v-if="showForm" class="reservation-form">
       <h3>Бронирование</h3>
       <form @submit.prevent="makeReservation">
         <label for="customerName">Имя:</label>
@@ -33,7 +34,6 @@
         <button type="submit">Забронировать</button>
       </form>
     </div>
-  </div>
 </template>
 
 <script>
@@ -52,15 +52,8 @@ export default {
   },
   methods: {
     getMoviePoster(id) {
-      const posters = {
-        1: '../assets/poster1.jpg',
-        2: '../assets/poster2.jpg',
-        3: '../assets/poster3.jpg',
-        4: '../assets/poster4.jpg',
-
-      };
-      return posters[id];
-  },
+      return `/assets/poster${id}.jpg`; // Используем относительный путь
+    },
     fetchMovies() {
       axios.get('http://localhost:8080/api/movies')
           .then(response => {
@@ -108,13 +101,36 @@ export default {
 </script>
 
 <style>
-img {
-  max-width: 100px;
-}
 #movies {
   font-family: 'Roboto', sans-serif;
   padding: 20px;
   background-color: #ffffff;
+}
+
+.content {
+  display: flex;
+  justify-content: space-between;
+}
+
+.movies-list {
+  flex: 2;
+}
+
+.screenings-list {
+  flex: 1;
+  margin-left: 20px;
+  background-color: #f9f9f9;
+  padding: 10px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+}
+
+.screening-item {
+  margin-bottom: 10px;
+}
+
+img {
+  max-width: 100px;
 }
 
 h1, h2, h3 {
@@ -160,5 +176,9 @@ form button[type="submit"] {
 
 form button[type="submit"]:hover {
   background-color: #803E2F;
+}
+
+.reservation-form {
+  margin-top: 20px;
 }
 </style>

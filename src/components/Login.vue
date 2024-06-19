@@ -28,6 +28,8 @@ export default {
         password: this.password
       };
 
+      console.log("User data being sent: ", userData);
+
       const url = 'http://localhost:8080/api/login';
 
       try {
